@@ -80,6 +80,14 @@ function ldapauth_is_valid_user( $value ) {
 		$ldapConnection = ldap_connect(LDAPAUTH_HOST, LDAPAUTH_PORT);
 		if (!$ldapConnection) Die("Cannot connect to LDAP " . LDAPAUTH_HOST);
 		ldap_set_option($ldapConnection, LDAP_OPT_PROTOCOL_VERSION, 3);
+		if(defined('LDAPAUTH_BIND_USER') && defined('LDAPAUTH_BIND_PASSWORD'))
+		{
+			$bind = ldap_bind(LDAPAUTH_BIND_USER, LDAPAUTH_BIND_PASSWORD);
+			if($bind == false)
+			{
+				error_log('Unable to bind user');
+			}
+		}
 		$searchDn = ldap_search($ldapConnection, LDAPAUTH_BASE, LDAPAUTH_USERNAME_FIELD . "=" . $_REQUEST['username'] );
 		if (!$searchDn) return $value;
 		$searchResult = ldap_get_entries($ldapConnection, $searchDn);
