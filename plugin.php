@@ -82,7 +82,7 @@ function ldapauth_is_valid_user( $value ) {
 		ldap_set_option($ldapConnection, LDAP_OPT_PROTOCOL_VERSION, 3);
 		if(defined('LDAPAUTH_BIND_USER') && defined('LDAPAUTH_BIND_PASSWORD'))
 		{
-			$bind = ldap_bind(LDAPAUTH_BIND_USER, LDAPAUTH_BIND_PASSWORD);
+			$bind = ldap_bind($ldapConnection, LDAPAUTH_BIND_USER, LDAPAUTH_BIND_PASSWORD);
 			if($bind == false)
 			{
 				error_log('Unable to bind user');
